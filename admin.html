@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Smart Canteen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B00',
+                        secondary: '#333333',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- Sidebar -->
+        <aside class="w-64 bg-secondary text-white hidden md:flex flex-col">
+            <div class="h-16 flex items-center px-6 border-b border-gray-700">
+                <span class="font-bold text-xl tracking-tight">Smart<span class="text-primary">Admin</span></span>
+            </div>
+            <nav class="flex-1 p-4 space-y-1">
+                <a href="#" class="flex items-center px-4 py-3 bg-gray-700 rounded-xl text-white font-medium">
+                    <i class="ph-bold ph-clipboard-text mr-3 text-xl"></i> Orders
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-800 rounded-xl hover:text-white transition">
+                    <i class="ph-bold ph-fork-knife mr-3 text-xl"></i> Menu Items
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-800 rounded-xl hover:text-white transition">
+                    <i class="ph-bold ph-chart-bar mr-3 text-xl"></i> Sales Report
+                </a>
+            </nav>
+            <div class="p-4 border-t border-gray-700">
+                <a href="index.html" class="flex items-center text-gray-400 hover:text-white transition text-sm">
+                    <i class="ph-bold ph-sign-out mr-2"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <!-- Header -->
+            <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-8">
+                <div class="md:hidden flex items-center">
+                    <i class="ph-bold ph-list text-2xl mr-4"></i>
+                    <span class="font-bold text-lg text-secondary">Admin</span>
+                </div>
+                <h1 class="text-xl font-bold text-secondary hidden md:block">Incoming Orders</h1>
+                <div class="flex items-center gap-4">
+                    <span
+                        class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> SYSTEM ONLINE
+                    </span>
+                    <div
+                        class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-600">
+                        A</div>
+                </div>
+            </header>
+
+            <div class="p-8 max-w-6xl mx-auto">
+
+                <!-- Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                        <p class="text-gray-500 text-sm font-medium mb-1">Today's Orders</p>
+                        <h3 class="text-3xl font-bold text-secondary">24</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                        <p class="text-gray-500 text-sm font-medium mb-1">Pending</p>
+                        <h3 class="text-3xl font-bold text-orange-500">4</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                        <p class="text-gray-500 text-sm font-medium mb-1">Total Revenue</p>
+                        <h3 class="text-3xl font-bold text-green-600">$185.50</h3>
+                    </div>
+                </div>
+
+                <!-- Orders List -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                        <h2 class="font-bold text-lg text-secondary">Recent Orders</h2>
+                        <button onclick="localStorage.removeItem('activeOrder'); window.location.reload()"
+                            class="text-xs text-red-500 hover:underline">Clear Demo Data</button>
+                    </div>
+                    <div id="admin-orders-list" class="divide-y divide-gray-100">
+                        <!-- Admin Orders injected here -->
+                        <div class="p-12 text-center text-gray-400">
+                            No active orders at the moment.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAdminOrders();
+            setInterval(renderAdminOrders, 3000);
+        });
+    </script>
+</body>
+
+</html>

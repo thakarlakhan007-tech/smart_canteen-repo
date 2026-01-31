@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment | Smart Canteen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .payment-option.selected {
+            border-color: #FF6B00;
+            background-color: #FFF7ED;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B00',
+                        secondary: '#333333',
+                    },
+                    animation: {
+                        'check': 'check 0.5s ease-in-out forwards',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-xl mx-auto px-4 py-4 flex items-center">
+            <a href="menu.html" class="flex items-center text-gray-500 hover:text-primary transition mr-4">
+                <i class="ph-bold ph-arrow-left text-xl"></i>
+            </a>
+            <span class="font-bold text-lg">Checkout & Payment</span>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-xl mx-auto w-full p-4 pb-24">
+
+        <!-- Digital Tray Summary -->
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-6 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-400 to-red-500"></div>
+            <h2 class="text-lg font-bold text-secondary mb-4 flex items-center gap-2">
+                <i class="ph-fill ph-tray text-primary"></i> Order Summary
+            </h2>
+
+            <div id="order-items" class="space-y-4 mb-6">
+                <!-- Items injected here -->
+            </div>
+
+            <div class="border-t border-gray-100 pt-4 space-y-2">
+                <div class="flex justify-between text-gray-500 text-sm">
+                    <span>Subtotal</span>
+                    <span id="bill-subtotal">₹0.00</span>
+                </div>
+                <div class="flex justify-between text-gray-500 text-sm">
+                    <span>Tax (5%)</span>
+                    <span id="bill-tax">₹0.00</span>
+                </div>
+                <div
+                    class="flex justify-between items-center text-lg font-bold text-secondary mt-2 pt-2 border-t border-dashed border-gray-200">
+                    <span>Total to Pay</span>
+                    <span id="bill-total" class="text-primary text-xl">₹0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <h3 class="font-bold text-gray-500 mb-3 px-2">Payment Method</h3>
+
+        <!-- QR Code Option -->
+        <div onclick="selectPayment('qr')" id="pay-qr"
+            class="payment-option bg-white rounded-2xl p-4 border border-gray-200 mb-3 cursor-pointer transition hover:border-orange-300 relative overflow-hidden">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center text-2xl text-secondary">
+                    <i class="ph-fill ph-qr-code"></i>
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-bold text-secondary">Scan QR Code</h4>
+                    <p class="text-xs text-gray-400">Instant UPI Payment</p>
+                </div>
+                <div
+                    class="radio-circle w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center">
+                    <div class="dot w-2.5 h-2.5 bg-primary rounded-full opacity-0 transition"></div>
+                </div>
+            </div>
+            <!-- Expanded QR View (Hidden by default) -->
+            <div id="qr-display" class="hidden mt-4 pt-4 border-t border-gray-100 text-center">
+                <p class="text-sm text-gray-500 mb-3">Scan to pay with any UPI App</p>
+                <div class="bg-white p-2 inline-block rounded-xl border border-gray-200">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=smartcanteen@bank&pn=SmartCanteen&am=0&cu=INR"
+                        alt="Payment QR" class="w-40 h-40 mix-blend-multiply opacity-90">
+                </div>
+                <p class="text-xs text-orange-500 mt-2 font-medium">Listening for payment...</p>
+            </div>
+        </div>
+
+        <!-- UPI Option -->
+        <div onclick="selectPayment('upi')" id="pay-upi"
+            class="payment-option bg-white rounded-2xl p-4 border border-gray-200 mb-3 cursor-pointer transition hover:border-orange-300">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center text-2xl text-secondary">
+                    <i class="ph-bold ph-paper-plane-tilt"></i>
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-bold text-secondary">UPI / VPA</h4>
+                    <p class="text-xs text-gray-400">GooglePay, PhonePe, Paytm</p>
+                </div>
+                <div
+                    class="radio-circle w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center">
+                    <div class="dot w-2.5 h-2.5 bg-primary rounded-full opacity-0 transition"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Option -->
+        <div onclick="selectPayment('card')" id="pay-card"
+            class="payment-option bg-white rounded-2xl p-4 border border-gray-200 mb-3 cursor-pointer transition hover:border-orange-300">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center text-2xl text-secondary">
+                    <i class="ph-bold ph-credit-card"></i>
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-bold text-secondary">Credit / Debit Card</h4>
+                    <p class="text-xs text-gray-400">Visa, Mastercard, RuPay</p>
+                </div>
+                <div
+                    class="radio-circle w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center">
+                    <div class="dot w-2.5 h-2.5 bg-primary rounded-full opacity-0 transition"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Action Bar -->
+    <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 p-4 pb-8 z-50">
+        <div class="max-w-xl mx-auto">
+            <button onclick="processPayment()" id="pay-btn"
+                class="w-full bg-secondary text-gray-400 font-bold py-4 rounded-xl transition flex justify-center items-center gap-2 cursor-not-allowed"
+                disabled>
+                Complete Payment
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Overlay -->
+    <div id="success-overlay"
+        class="fixed inset-0 bg-white z-[60] hidden flex-col items-center justify-center p-8 text-center">
+        <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6 animate-bounce">
+            <i class="ph-fill ph-check-circle text-6xl text-green-500"></i>
+        </div>
+        <h2 class="text-3xl font-bold text-secondary mb-2">Payment Successful!</h2>
+        <p class="text-gray-500 mb-8">Your order has been sent to the kitchen.</p>
+        <div class="bg-gray-50 p-4 rounded-2xl w-full max-w-xs mb-8">
+            <p class="text-sm text-gray-400 mb-1">Transaction ID</p>
+            <p class="font-mono text-secondary font-bold">TXN_883920192</p>
+        </div>
+        <p class="text-sm text-gray-400">Redirecting to tracker...</p>
+    </div>
+
+    <script>
+        let currentOrder = null;
+        let selectedMethod = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadOrder();
+        });
+
+        function loadOrder() {
+            const orderData = localStorage.getItem('pendingOrder');
+            if (!orderData) {
+                alert('No pending order found. Redirecting to menu.');
+                window.location.href = 'menu.html';
+                return;
+            }
+            currentOrder = JSON.parse(orderData);
+            renderBill();
+        }
+
+        function renderBill() {
+            const container = document.getElementById('order-items');
+            container.innerHTML = '';
+
+            let subtotal = 0;
+
+            currentOrder.items.forEach(item => {
+                subtotal += item.price * item.qty;
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center";
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">x${item.qty}</div>
+                        <span class="font-medium text-secondary truncate max-w-[150px] sm:max-w-xs">${item.name}</span>
+                    </div>
+                    <span class="font-bold text-gray-600">₹${(item.price * item.qty).toFixed(2)}</span>
+                `;
+                container.appendChild(row);
+            });
+
+            const tax = subtotal * 0.05;
+            const total = subtotal + tax;
+
+            document.getElementById('bill-subtotal').innerText = '₹' + subtotal.toFixed(2);
+            document.getElementById('bill-tax').innerText = '₹' + tax.toFixed(2);
+            document.getElementById('bill-total').innerText = '₹' + total.toFixed(2);
+        }
+
+        function selectPayment(method) {
+            selectedMethod = method;
+
+            // Reset UI
+            document.querySelectorAll('.payment-option').forEach(el => {
+                el.classList.remove('selected', 'border-primary');
+                el.classList.add('border-gray-200');
+                el.querySelector('.radio-circle').classList.remove('border-primary');
+                el.querySelector('.radio-circle').classList.add('border-gray-300');
+                el.querySelector('.dot').classList.remove('opacity-100');
+            });
+
+            // Select active
+            const activeEl = document.getElementById('pay-' + method);
+            activeEl.classList.add('selected', 'border-primary');
+            activeEl.classList.remove('border-gray-200');
+            activeEl.querySelector('.radio-circle').classList.add('border-primary');
+            activeEl.querySelector('.radio-circle').classList.remove('border-gray-300');
+            activeEl.querySelector('.dot').classList.add('opacity-100');
+
+            // Handle QR specific view
+            const qrDisplay = document.getElementById('qr-display');
+            if (method === 'qr') {
+                qrDisplay.classList.remove('hidden');
+            } else {
+                qrDisplay.classList.add('hidden');
+            }
+
+            // Enable Pay Button
+            const btn = document.getElementById('pay-btn');
+            btn.disabled = false;
+            btn.classList.remove('bg-secondary', 'text-gray-400', 'cursor-not-allowed');
+            btn.classList.add('bg-primary', 'text-white', 'shadow-lg', 'shadow-orange-500/30', 'hover:bg-orange-600');
+            btn.innerHTML = `Pay ₹${(currentOrder.total * 1.05).toFixed(2)}`;
+        }
+
+        function processPayment() {
+            if (!selectedMethod) return;
+
+            const btn = document.getElementById('pay-btn');
+            btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Processing...`;
+
+            // Simulate API delay
+            setTimeout(() => {
+                showSuccess();
+            }, 2000);
+        }
+
+        function showSuccess() {
+            const overlay = document.getElementById('success-overlay');
+            overlay.classList.remove('hidden');
+            overlay.style.display = 'flex';
+
+            // Convert to active order
+            const finalOrder = {
+                ...currentOrder,
+                status: 'received',
+                paid: true,
+                paymentMethod: selectedMethod,
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.removeItem('pendingOrder');
+            localStorage.setItem('activeOrder', JSON.stringify(finalOrder));
+
+            // Redirect
+            setTimeout(() => {
+                window.location.href = 'track.html';
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

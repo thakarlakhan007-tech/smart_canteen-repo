@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Canteen | Campus Life</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B00',
+                        secondary: '#333333',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="ph-fill ph-hamburger text-primary text-3xl mr-2"></i>
+                    <span class="font-bold text-2xl tracking-tight text-secondary">Smart<span
+                            class="text-primary">Canteen</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-primary font-medium">Home</a>
+                    <a href="menu.html" class="text-gray-500 hover:text-primary transition">Menu</a>
+                    <a href="payment.html" class="text-gray-500 hover:text-primary transition">Payment</a>
+                    <a href="track.html" class="text-gray-500 hover:text-primary transition">Track Order</a>
+                    <a href="admin.html" class="text-gray-500 hover:text-primary transition">Admin</a>
+                </div>
+                <div>
+                    <button onclick="document.getElementById('loginModal').classList.remove('hidden')"
+                        class="bg-secondary text-white px-5 py-2 rounded-full font-medium hover:bg-black transition flex items-center gap-2">
+                        <i class="ph ph-sign-in"></i> Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header
+        class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center gap-12">
+        <div class="flex-1 text-center md:text-left">
+            <span class="inline-block py-1 px-3 rounded-full bg-orange-100 text-primary text-sm font-semibold mb-6">Skip
+                the Queue 🚀</span>
+            <h1 class="text-5xl md:text-7xl font-bold leading-tight text-secondary mb-6">
+                Fuel Your <br><span class="text-primary">Campus Life</span>
+            </h1>
+            <p class="text-xl text-gray-500 mb-8 max-w-lg mx-auto md:mx-0">
+                Order fresh food from your phone, track it in real-time, and pick it up when it's ready. No more waiting
+                in line.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <a href="menu.html"
+                    class="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-orange-500/30 hover:-translate-y-1 transition transform flex items-center justify-center gap-2">
+                    <i class="ph-bold ph-pizza"></i> Order Now
+                </a>
+                <a href="track.html"
+                    class="bg-white border-2 border-gray-200 text-secondary px-8 py-4 rounded-xl font-bold text-lg hover:border-secondary transition flex items-center justify-center gap-2">
+                    <i class="ph-bold ph-timer"></i> Track Order
+                </a>
+            </div>
+        </div>
+        <div class="flex-1 relative">
+            <div class="absolute inset-0 bg-orange-500 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Delicious Food Container"
+                class="relative rounded-3xl shadow-2xl rotate-3 hover:rotate-0 transition duration-500 w-full object-cover h-[500px]">
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-3xl bg-gray-50 hover:bg-orange-50 transition border border-gray-100">
+                    <div
+                        class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center text-primary text-3xl mb-6">
+                        <i class="ph-fill ph-device-mobile"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">Mobile First</h3>
+                    <p class="text-gray-500">Designed for your smartphone. Order easily between classes or on the go.
+                    </p>
+                </div>
+                <div class="p-8 rounded-3xl bg-gray-50 hover:bg-orange-50 transition border border-gray-100">
+                    <div
+                        class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center text-primary text-3xl mb-6">
+                        <i class="ph-fill ph-clock-countdown"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">Live Tracking</h3>
+                    <p class="text-gray-500">Know exactly when your food is preparing and ready. Stop guessing.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-gray-50 hover:bg-orange-50 transition border border-gray-100">
+                    <div
+                        class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center text-primary text-3xl mb-6">
+                        <i class="ph-fill ph-lightning"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">Fast Pickup</h3>
+                    <p class="text-gray-500">Show your digital receipt, grab your meal, and get back to your day.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Firebase Integration Footer -->
+    <footer class="bg-secondary text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="text-center md:text-left">
+                    <h4 class="font-bold text-2xl text-white mb-2">SmartCanteen</h4>
+                    <p class="text-gray-400">Making campus dining smarter, one meal at a time.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-2xl flex items-center gap-6 border border-gray-700 max-w-md">
+                    <div class="text-4xl text-orange-400">
+                        <i class="ph-fill ph-fire"></i>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-orange-400 mb-1">Powered by Firebase</h5>
+                        <p class="text-xs text-gray-400">
+                            Real-time database, secure authentication, and cloud functions ensure <br>
+                            instant order updates and reliable service.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-500 text-sm">
+                &copy; 2024 Smart Canteen System. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onclick="document.getElementById('loginModal').classList.add('hidden')"></div>
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl">
+            <h2 class="text-2xl font-bold text-center mb-2">Welcome Back</h2>
+            <p class="text-center text-gray-500 mb-6">Login to access your orders</p>
+
+            <form class="space-y-4" onsubmit="event.preventDefault(); window.location.href='admin.html'">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" value="admin@college.edu"
+                        class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        placeholder="student@college.edu">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" value="password"
+                        class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        placeholder="••••••••">
+                </div>
+                <button type="submit"
+                    class="w-full bg-primary text-white font-bold py-3 rounded-xl hover:bg-orange-600 transition">
+                    Sign In
+                </button>
+            </form>
+            <p class="mt-6 text-center text-xs text-gray-400">Demo Account: admin@college.edu / password</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
